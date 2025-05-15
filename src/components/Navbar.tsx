@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import AuthForm from "./AuthForm";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar: React.FC = () => {
+  const { isAuthenticated } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
 
   const openModal = () => setShowAuthModal(true);
@@ -21,18 +23,22 @@ const Navbar: React.FC = () => {
           <li>
             <Link to="/dashboard">Dashboard</Link>
           </li>
-          <li>
-            <button onClick={openModal}>Get Started</button>
-          </li>
+          {!isAuthenticated && (
+            <li>
+              <button onClick={openModal}>Get Started</button>
+            </li>
+          )}
         </ul>
       </nav>
 
       {showAuthModal && (
         <div>
-          <button onClick={closeModal} aria-label="Close modal">
-            &times;
-          </button>
-          <AuthForm />
+          <div>
+            <button onClick={closeModal} aria-label="Close modal">
+              &times;
+            </button>
+            <AuthForm />
+          </div>
         </div>
       )}
     </>
