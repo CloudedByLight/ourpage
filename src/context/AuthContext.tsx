@@ -32,6 +32,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
+      if (firebaseUser) {
+        console.log(`Authentication successful: ${firebaseUser.email}`);
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -58,6 +61,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const logout = async () => {
     await signOut(auth);
+    console.log("Authentication: user has logged out");
     // user state will update automatically via onAuthStateChanged
   };
 
