@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 
 /* 
-Scalability Notes
+Scalability Notes:
 ✅ To add new pages: Create a file in pages/ and register it in AppRoutes.tsx.
 
 ✅ Want admin routes? Create a separate AdminLayout and set of routes.
