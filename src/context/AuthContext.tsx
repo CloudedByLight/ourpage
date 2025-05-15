@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import type { User } from "firebase/auth";
@@ -11,7 +12,9 @@ import { auth } from "../utils/firebase";
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
+  authError: string | null;
   login: (email: string, password: string) => Promise<void>;
+  signup: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -22,6 +25,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [authError, setAuthError] = useState<string | null>(null);
   const isAuthenticated = !!user;
 
   // Firebase auth listener
@@ -33,17 +37,41 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   }, []);
 
   const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
-    // `user` state will update automatically due to `onAuthStateChanged`
+    setAuthError(null);
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // user state will update automatically via onAuthStateChanged
+    } catch (error: any) {
+      setAuthError(error.message || "Failed to log in.");
+    }
+  };
+
+  const signup = async (email: string, password: string) => {
+    setAuthError(null);
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      // user state will update automatically via onAuthStateChanged
+    } catch (error: any) {
+      setAuthError(error.message || "Failed to sign up.");
+    }
   };
 
   const logout = async () => {
     await signOut(auth);
-    // `user` state will update automatically
+    // user state will update automatically via onAuthStateChanged
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated,
+        authError,
+        login,
+        signup,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
