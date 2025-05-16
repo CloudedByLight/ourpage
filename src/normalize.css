@@ -27,6 +27,25 @@ html {
   font-size: 62.5%; /* 62.5% x 16px = 10px */
 }
 
+/* Theming
+   ========================================================================== */
+
+:root {
+  /* light mode defaults */
+  --color-bg: #ffffff;
+  --color-text: #222222;
+  --color-primary: #0066cc;
+  /* …add as many as you like… */
+}
+
+[data-theme="dark"] {
+  /* dark-mode overrides */
+  --color-bg: #121212;
+  --color-text: #e4e4e4;
+  --color-primary: #3399ff;
+  /* … */
+}
+
 /* Sections
    ========================================================================== */
 

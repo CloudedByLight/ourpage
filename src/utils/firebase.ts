@@ -7,6 +7,8 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
+// setLogLevel("silent"); // Or 'error', 'warn', 'info', 'debug'
+
 // Your web app's Firebase configuration
 export const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,

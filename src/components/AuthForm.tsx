@@ -1,6 +1,8 @@
+// AuthForm.tsx
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Input from "./Input"; 
 
 export default function AuthForm() {
   const { user, login, signup, authError } = useAuth();
@@ -45,17 +47,22 @@ export default function AuthForm() {
       <form onSubmit={handleSubmit}>
         <h2>{isLogin ? "Log In" : "Create Account"}</h2>
 
-        <input
+        <Input
           type="email"
+          id="email"
+          name="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          autoFocus
           required
           disabled={loading}
         />
 
-        <input
+        <Input
           type="password"
+          id="password"
+          name="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -67,7 +74,7 @@ export default function AuthForm() {
           {loading ? "Please wait…" : isLogin ? "Login" : "Create Account"}
         </button>
 
-        {authError && <p>{authError}</p>}
+        {authError && <p className="auth-error">{authError}</p>}
       </form>
     </div>
   );
